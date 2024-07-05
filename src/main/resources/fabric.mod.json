@@ -19,9 +19,6 @@
       "me.katanya04.forgetmewand.ForgetMeWand"
     ]
   },
-  "mixins": [
-    "forgetmewand.mixins.json"
-  ],
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
