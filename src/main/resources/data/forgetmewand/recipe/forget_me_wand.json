@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " #S",
+    " /#",
+    "/  "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:echo_shard"
+    },
+    "S": {
+      "item": "minecraft:heavy_core"
+    },
+    "/": {
+      "item": "minecraft:breeze_rod"
+    }
+  },
+  "result": {
+    "id": "forgetmewand:forget_me_wand"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "forgetmewand",
+  "version": "${version}",
+  "name": "ForgetMeWand",
+  "description": "Allows you to reopen a Vault",
+  "authors": [
+    "katanya04"
+  ],
+  "contact": {
+    "website": "https://katanya04.neocities.org/",
+    "repo": "https://github.com/Equipo/ForgetMeWand"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/forgetmewand/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.katanya04.forgetmewand.ForgetMeWand"
+    ]
+  },
+  "mixins": [
+    "forgetmewand.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
