@@ -9,11 +9,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.math.Position;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 
 import java.util.Random;
 import java.util.Set;
@@ -57,7 +53,6 @@ public class Utils {
         rewardedPlayersPrevious.stream().map(NbtHelper::fromUuid).forEach(rewardedPlayersUpdated::add);
         NbtCompound nbt = getVaultNbt(vault);
         nbt.getCompound("server_data").put("rewarded_players", rewardedPlayersUpdated);
-        System.out.println(nbt);
         setVaultNbt(vault, nbt);
         return true;
     }

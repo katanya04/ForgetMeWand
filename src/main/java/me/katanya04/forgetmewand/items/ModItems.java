@@ -7,6 +7,7 @@ import net.minecraft.block.VaultBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.RepairableComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -14,6 +15,9 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -25,20 +29,18 @@ import net.minecraft.util.Rarity;
 import java.util.List;
 
 public class ModItems {
+    public static Identifier ITEM_ID = Identifier.of(ForgetMeWand.MOD_ID, "forget_me_wand");
     public static void initialize() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS)
                 .register((itemGroup) -> itemGroup.addAfter(Items.FISHING_ROD, ModItems.FORGET_ME_WAND));
     }
-    public static final Item FORGET_ME_WAND = register(
-            new Item(new Item.Settings().rarity(Rarity.EPIC).maxDamage(15).component(DataComponentTypes.TOOL, MaceItem.createToolComponent())) {
+    public static final Item FORGET_ME_WAND = Registry.register(Registries.ITEM, ITEM_ID,
+            new Item(new Item.Settings().rarity(Rarity.EPIC).maxDamage(15).component(DataComponentTypes.TOOL, MaceItem.createToolComponent())
+                    .component(DataComponentTypes.REPAIRABLE, new RepairableComponent(RegistryEntryList.of(Registries.ITEM.getEntry(Items.ECHO_SHARD))))
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, ITEM_ID))) {
                 @Override
                 public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
                     tooltip.add(Text.translatable("itemTooltip.forgetmewand.forget_me_wand").formatted(Formatting.AQUA));
-                }
-
-                @Override
-                public boolean canRepair(ItemStack stack, ItemStack ingredient) {
-                    return ingredient.isOf(Items.ECHO_SHARD);
                 }
 
                 @Override
@@ -60,11 +62,6 @@ public class ModItems {
                     Utils.summonParticlesRandSpeed(ParticleTypes.CLOUD, vault.getPos().toCenterPos(), -0.5d, 0.5d, 20);
                     return ActionResult.SUCCESS;
                 }
-            },
-            "forget_me_wand"
+            }
     );
-    private static Item register(Item item, String id) {
-        Identifier itemID = Identifier.of(ForgetMeWand.MOD_ID, id);
-        return Registry.register(Registries.ITEM, itemID, item);
-    }
 }

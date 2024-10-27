@@ -6,15 +6,9 @@
     "/  "
   ],
   "key": {
-    "#": {
-      "item": "minecraft:echo_shard"
-    },
-    "S": {
-      "item": "minecraft:heavy_core"
-    },
-    "/": {
-      "item": "minecraft:breeze_rod"
-    }
+    "#": "minecraft:echo_shard",
+    "S": "minecraft:heavy_core",
+    "/": "minecraft:breeze_rod"
   },
   "result": {
     "id": "forgetmewand:forget_me_wand"
