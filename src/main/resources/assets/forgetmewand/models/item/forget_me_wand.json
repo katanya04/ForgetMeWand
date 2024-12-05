@@ -1,6 +1,6 @@
 {
-    "parent": "item/handheld",
-    "textures": {
-        "layer0": "forgetmewand:item/forget_me_wand"
-    }
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "forgetmewand:item/forget_me_wand"
+  }
 }
