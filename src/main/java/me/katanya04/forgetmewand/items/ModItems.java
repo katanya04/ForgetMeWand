@@ -8,6 +8,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.RepairableComponent;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -26,7 +27,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class ModItems {
     public static Identifier ITEM_ID = Identifier.of(ForgetMeWand.MOD_ID, "forget_me_wand");
@@ -39,8 +40,8 @@ public class ModItems {
                     .component(DataComponentTypes.REPAIRABLE, new RepairableComponent(RegistryEntryList.of(Registries.ITEM.getEntry(Items.ECHO_SHARD))))
                     .registryKey(RegistryKey.of(RegistryKeys.ITEM, ITEM_ID))) {
                 @Override
-                public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-                    tooltip.add(Text.translatable("itemTooltip.forgetmewand.forget_me_wand").formatted(Formatting.AQUA));
+                public void appendTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+                    textConsumer.accept(Text.translatable("itemTooltip.forgetmewand.forget_me_wand").formatted(Formatting.AQUA));
                 }
 
                 @Override
