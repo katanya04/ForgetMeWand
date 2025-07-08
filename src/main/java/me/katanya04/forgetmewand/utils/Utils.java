@@ -7,18 +7,19 @@ import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.*;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.storage.NbtReadView;
+import net.minecraft.util.ErrorReporter;
 import net.minecraft.util.Uuids;
 import net.minecraft.util.math.Vec3d;
 
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Utils {
     private Utils() {}
     public static UUID NbtToUUID(NbtElement nbt) {
-        return Uuids.toUuid(nbt.asIntArray().get());
+        Optional<int[]> uuidArray = nbt.asIntArray();
+        return uuidArray.map(Uuids::toUuid).orElse(null);
     }
     public static NbtElement UUIDtoNbt(UUID uuid) {
         return new NbtIntArray(Uuids.toIntArray(uuid));
@@ -33,12 +34,13 @@ public class Utils {
         if (!vault.getType().equals(BlockEntityType.VAULT)
                 || vault.getWorld() == null || vault.getWorld().getServer() == null)
             return;
-        vault.read(nbt, vault.getWorld().getServer().getRegistryManager());
+        vault.read(NbtReadView.create(ErrorReporter.EMPTY, vault.getWorld().getRegistryManager(), nbt));
     }
     public static Set<UUID> getRewardedPlayers(BlockEntity vault) {
         NbtCompound nbt = getVaultNbt(vault);
-        NbtList playerList = nbt.getCompound("server_data").get().getListOrEmpty("rewarded_players");
-        return playerList.stream().map(Utils::NbtToUUID).collect(Collectors.toSet());
+        Optional<NbtList> playerList = nbt.getCompound("server_data").map(c -> c.getListOrEmpty("rewarded_players"));
+        return playerList.map(nbtElements -> nbtElements.stream().map(Utils::NbtToUUID).filter(Objects::nonNull)
+                .collect(Collectors.toSet())).orElseGet(Set::of);
     }
     public static boolean vaultContainsPlayer(BlockEntity vault, PlayerEntity player) {
         return vaultContainsPlayer(vault, player.getUuid());
@@ -57,7 +59,7 @@ public class Utils {
         NbtList rewardedPlayersUpdated = new NbtList();
         rewardedPlayersPrevious.stream().map(Utils::UUIDtoNbt).forEach(rewardedPlayersUpdated::add);
         NbtCompound nbt = getVaultNbt(vault);
-        nbt.getCompound("server_data").get().put("rewarded_players", rewardedPlayersUpdated);
+        nbt.getCompound("server_data").ifPresent(c -> c.put("rewarded_players", rewardedPlayersUpdated));
         setVaultNbt(vault, nbt);
         return true;
     }

@@ -61,7 +61,7 @@ public class ModItems {
                     context.getStack().damage(isOminous ? 3 : 1, player, LivingEntity.getSlotForHand(context.getHand()));
                     player.playSoundToPlayer(SoundEvents.ITEM_MACE_SMASH_GROUND, SoundCategory.BLOCKS, 1.f, 1.f);
                     Utils.summonParticlesRandSpeed(ParticleTypes.CLOUD, vault.getPos().toCenterPos(), -0.5d, 0.5d, 20);
-                    return ActionResult.SUCCESS;
+                    return ActionResult.SUCCESS_SERVER;
                 }
             }
     );
